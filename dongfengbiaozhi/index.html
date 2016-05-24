@@ -1,0 +1,367 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,user-scalable=no"/>
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<title>粉丝汇“色”心大战</title>
+<link href="css/style.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/links.js"></script>
+<script type="text/javascript" src="js/WxhideToolbar.js"></script>
+<script type="text/javascript" src="js/lufylegend-1.8.12.min.js"></script>
+</head>
+
+<body style="padding:0; margin:0;width:auto;height:auto; background:#e2e2e2;">
+	<div id="mylegend" style="padding:0; margin:0;"></div>
+    <div id="paihang">
+    	<div class="logo"><img src="images/logo.png" width="100%" /></div>
+    	<h2 class="phTit"><img src="images/ph_Tit.png" width="100%" /></h2>
+        <ul id="list">
+        	<li>第1名：100分</li>
+        	<li>第2名：90分</li>
+        	<li>第3名：85分</li>
+        	<li>......</li>
+        	<li>第10名：10分</li>
+        </ul>
+        <p class="phMe">我获得<span>x</span>分，排名<span>21</span></p>
+        <div class="phBtn"><img src="images/ph_btn.png" width="100%" /></div>
+    </div>
+    <script type="text/javascript">
+    	init(50,"mylegend",480,756,main);
+        var imgData = [
+					{ name: "pink0", path: "images/img1.png"},
+					{ name: "pink1", path: "images/img2.png"},
+					{ name: "pink2", path: "images/img3.png"},
+					{ name: "pink3", path: "images/img4.png"},
+					{ name: "pink4", path: "images/img5.png"},
+					{ name: "pink5", path: "images/img6.png"},
+					{ name: "pink6", path: "images/img7.png"},
+					{ name: "pink7", path: "images/img8.png"},
+					{ name: "bg", path: "images/bg.jpg"},
+					{ name: "logo", path: "images/logo.png"},
+					{ name: "shouye_bot", path: "images/shouye_bot.png"},
+					{ name: "shouye_tit", path: "images/shouye_tit.png"},
+					{ name: "cj_tit", path: "images/cj_tit.png"},
+					{ name: "cj_ph", path: "images/cj_ph.png"},
+					{ name: "playMore", path: "images/playMore.png"},
+					{ name: "cj_txt", path: "images/cj_txt.png"}
+				]; 
+		var imglist;
+		var num = 2,padding = 10,kuan,index,alphas,rand,jishi = 40,greed = 0,m=0;
+		var loadingLayer,bgLayer,topLayer,logo,topTit,sy_botLayer,sy_bot,startLayer,gameLayer,defen,time,gameBox,img,overLayer,overTit,overTxt,overTxt1,overTxt2,overTxt3,overTxt4,overTxt5,cj_txt,replayBtn,replayLayer,pinkLayer,pink,TaoLayer,paihang,paihangBtn,phLayer,phTit,phTop1,phTop2,phTop3,phTopd,phTop10,phMe,overPh,overPhLayer;
+		//全屏设置
+		LGlobal.stageScale = LStageScaleMode.SHOW_ALL;
+		LGlobal.align = LStageAlign.TOP_MIDDLE;
+		LSystem.screen(LStage.FULL_SCREEN);
+		//LGlobal.preventDefault = false;
+		function main(){
+			LMultitouch.inputMode = LMultitouchInputMode.TOUCH_POINT;
+			//加载进度条
+			loadingLayer = new LoadingSample4();
+			addChild(loadingLayer);
+			//加载的所有内容
+			LLoadManage.load(
+				imgData,
+				function (progress){
+					loadingLayer.setProgress(progress);
+				},
+				function (result){
+					imglist = result;
+					removeChild(loadingLayer);
+					loadingLayer = null;
+					//sound = new SoundPlayer();
+					gameInit();
+				}
+			);
+		};
+		function gameInit(event){
+			//背景加载
+			bgLayer = new LSprite();
+			addChild(bgLayer);
+			bg = new LBitmap(new LBitmapData(imglist["bg"]));
+			bg.x = bg.y = 0;
+			bgLayer.addChild(bg);
+			
+			topLayer = new LSprite();
+			topLayer.graphics.drawRect(0,"#f00",[0,0,480,755],false,"#fff");
+			topLayer.x= topLayer.y = 0;
+			bgLayer.addChild(topLayer);
+			
+			logo = new LBitmap(new LBitmapData(imglist["logo"]));
+			logo.x = 190;
+			logo.y = 26;
+			bgLayer.addChild(logo);
+			
+			topTit = new LBitmap(new LBitmapData(imglist["shouye_tit"]));
+			topTit.x = 0;
+			topTit.y = 125;
+			topLayer.addChild(topTit);
+			
+			sy_botLayer = new LSprite();
+			topLayer.addChild(sy_botLayer);
+			sy_bot = new LBitmap(new LBitmapData(imglist["shouye_bot"]));
+			sy_bot.x = 0;
+			sy_bot.y = 470;
+			sy_botLayer.addChild(sy_bot);
+			
+			startLayer = new LSprite();
+			startLayer.graphics.drawRect(0,"#f00",[0,0,366,72],false,"#fff");
+			startLayer.x= 56;
+			startLayer.y = 470;
+			sy_botLayer.addChild(startLayer);
+			
+			paihang = new LSprite();
+			paihang.graphics.drawRect(0,"#f00",[0,0,366,72],false,"#fff");
+			paihang.x= 56;
+			paihang.y = 580;
+			sy_botLayer.addChild(paihang);
+			/*游戏层*/
+			gameLayer = new LSprite();
+			gameLayer.graphics.drawRect(0,"#f00",[0,0,480,755],false,"#fff");
+			gameLayer.x= topLayer.y = 0;
+			
+			defen = new LTextField();
+			defen.size = 24; 
+			defen.x = 27
+			defen.y = 114;
+			defen.color = "#fff"; 
+			defen.text = "得分：0"; 
+			gameLayer.addChild(defen);
+			
+			time = new LTextField();
+			time.size = 24; 
+			time.x = 394
+			time.y = 114;
+			time.color = "#fff"; 
+			time.text = "40″"; 
+			gameLayer.addChild(time);
+			
+			gameBox = new LSprite();
+			gameBox.graphics.drawRect(0,"#f00",[0,0,450,450],true,"#fff");
+			gameBox.x= 15;
+			gameBox.y = 200;
+			gameLayer.addChild(gameBox);
+			
+			TaoLayer = new LSprite();
+			TaoLayer.graphics.drawRect(0,"#f00",[0,0,450,450],false,"#fff");
+			TaoLayer.x= 15;
+			TaoLayer.y = 200;
+			gameLayer.addChild(TaoLayer);
+			
+			addImg();
+			/**游戏结束层**/
+			overLayer = new LSprite();
+			overLayer.graphics.drawRect(0,"#f00",[0,0,480,756],false,"#fff");
+			overLayer.x = overLayer.y = 0;
+			
+			overTit = new LBitmap(new LBitmapData(imglist["cj_tit"]));
+			overTit.x = 154;
+			overTit.y = 136;
+			overLayer.addChild(overTit);
+			
+			overTxt2 = new LTextField();
+			overTxt2.size = 24; 
+			overTxt2.x = 127;
+			overTxt2.y = 230;
+			overTxt2.color = "#fff"; 
+			overTxt2.text = "恭喜您获得"; 
+			overLayer.addChild(overTxt2);
+			
+			overTxt = new LTextField();
+			overTxt.size = 24; 
+			overTxt.x = 137+overTxt2.getWidth();
+			overTxt.y = 230;
+			overTxt.color = "#fffc00"; 
+			overTxt.text = "100"; 
+			overLayer.addChild(overTxt);
+			
+			overTxt3 = new LTextField();
+			overTxt3.size = 24; 
+			overTxt3.x = 147+overTxt.getWidth()+overTxt2.getWidth();
+			overTxt3.y = 230;
+			overTxt3.color = "#fff"; 
+			overTxt3.text = "分"; 
+			overLayer.addChild(overTxt3);
+			
+			
+			overTxt4 = new LTextField();
+			overTxt4.size = 24; 
+			overTxt4.x = 100;
+			overTxt4.y = 266;
+			overTxt4.color = "#fff"; 
+			overTxt4.text = "目前排名第"; 
+			overLayer.addChild(overTxt4);
+			
+			overTxt1 = new LTextField();
+			overTxt1.size = 24; 
+			overTxt1.x = 110+overTxt4.getWidth()
+			overTxt1.y = 266;
+			overTxt1.color = "#fffc00"; 
+			overTxt1.text = "23456"; 
+			overLayer.addChild(overTxt1);
+			
+			overTxt5 = new LTextField();
+			overTxt5.size = 24; 
+			overTxt5.x = 120+overTxt1.getWidth()+overTxt4.getWidth();
+			overTxt5.y = 266;
+			overTxt5.color = "#fff"; 
+			overTxt5.text = "名"; 
+			overLayer.addChild(overTxt5);
+			
+			cj_txt = new LBitmap(new LBitmapData(imglist["cj_txt"]));
+			cj_txt.x = 56;
+			cj_txt.y = 340;
+			overLayer.addChild(cj_txt);
+			
+			replayLayer = new LSprite();
+			overLayer.addChild(replayLayer);
+			replayBtn = new LBitmap(new LBitmapData(imglist["playMore"]));
+			replayBtn.x = 50
+			replayBtn.y = 578;
+			replayLayer.addChild(replayBtn);
+			
+			overPhLayer= new LSprite();
+			overLayer.addChild(overPhLayer);
+			overPh = new LBitmap(new LBitmapData(imglist["cj_ph"]));
+			overPh.x = 248
+			overPh.y = 578;
+			overPhLayer.addChild(overPh);
+			
+			replayLayer.addEventListener(LMouseEvent.MOUSE_DOWN,replays);
+			overPhLayer.addEventListener(LMouseEvent.MOUSE_DOWN,ph1);
+			addEvent();
+		};
+		
+		function addEvent(){
+			bgLayer.addEventListener(LEvent.ENTER_FRAME,onframe); 
+			startLayer.addEventListener(LMouseEvent.MOUSE_DOWN,start);
+			paihang.addEventListener(LMouseEvent.MOUSE_DOWN,ph);
+    	};
+		function onframe(){
+		};
+		function start(){
+			bgLayer.removeChild(topLayer);
+			bgLayer.addChild(gameLayer);
+			daojishi();
+		};
+		
+		function ph(){
+			$("#mylegend").hide();
+			$("#paihang").show();
+		};
+		$(".phBtn").bind("touchstart",function(){
+			$("#mylegend").show();
+			$("#paihang").hide();
+		});
+		//添加图片
+		function addImg(){
+			kuan = (440 - padding*(num-1))/num;
+			rand=200000+Math.floor(Math.random()*800000);
+			for(var i=0;i<num;i++){
+				for(var j=0;j<num;j++){
+					img = new LSprite();
+					img.graphics.drawRect(0,"#f00",[0,0,kuan,kuan],true,"#" + rand);
+					img.x= 5 + (kuan + padding)*j;
+					img.y = 5 + (kuan + padding)*i;
+					gameBox.addChild(img);
+					
+					pinkLayer = new LSprite();
+					pink = new LBitmap(new LBitmapData(imglist["pink"+m]));
+					pink.x = 5 + (kuan + padding)*j;
+					pink.y = 5 + (kuan + padding)*i;
+					pink.alpha = 0.5;
+					pinkLayer.addChild(pink);
+					TaoLayer.addChild(pinkLayer);
+				};
+			};
+			index = Math.floor(Math.random()*num*num);
+			gameBox.getChildAt(index).alpha = 0.5+Math.random()*0.4;
+			TaoLayer.getChildAt(index).addEventListener(LMouseEvent.MOUSE_DOWN,dianji);
+		};
+		//点击事件
+		function dianji(){
+			
+			if(num < 9){
+				num++;
+			}else{
+				num = 9;
+			};
+			if(m < 6){
+				m++;
+			}else{
+				m=7;
+			};
+			if(padding > 2){
+				padding -= 2;
+			}else{
+				padding =1;
+			};
+			
+			greed++;
+			defen.text = "得分："+greed; 
+			gameBox.removeAllChild();
+			TaoLayer.removeAllChild();
+			overTxt.text = greed; 
+			overTxt3.x = 147+overTxt.getWidth()+overTxt2.getWidth();
+			addImg();
+		}
+		//倒计时
+		var timer;
+		function daojishi(){
+			timer = setInterval(function(){
+				jishi--;
+				time.text = jishi+"″";
+				if(jishi == 0){
+					clearInterval(timer);
+					gameBox.getChildAt(index).removeEventListener(LMouseEvent.MOUSE_DOWN,dianji);
+					bgLayer.removeChild(gameLayer);
+					bgLayer.addChild(overLayer);
+					replayLayer.addEventListener(LMouseEvent.MOUSE_DOWN,replays);
+				};
+			},1000);
+		};
+		//重新开始
+		function replays(){
+			jishi = 40;
+			num = 2;
+			m=0;
+			padding = 10;
+			greed = 0;
+			defen.text = "得分："+greed; 
+			bgLayer.removeChild(overLayer);
+			bgLayer.addChild(gameLayer);
+			gameBox.removeAllChild();
+			TaoLayer.removeAllChild();
+			addImg();
+			daojishi();
+		};
+		function ph1(){
+			bgLayer.removeChild(overLayer);
+			$("#paihang").show();
+		};
+			
+		var oHeight = window.innerHeight;
+		window.onload = function (){
+			setTimeout(function(){
+				var nowHeight = window.innerHeight;
+				if(nowHeight != oHeight){
+					if (LGlobal.canTouch) {
+						LGlobal.stageScale = LStageScaleMode.SHOW_ALL;
+						LGlobal.align = LStageAlign.BOTTOM_MIDDLE;
+						LSystem.screen(LStage.FULL_SCREEN);
+					} else {
+						LGlobal.stageScale = LStageScaleMode.SHOW_ALL;
+						LSystem.screen(LStage.FULL_SCREEN);
+					};
+				};
+			},1000);
+			setTimeout(function(){
+				quanBujs();
+			},100);
+		};
+    </script>
+    <script type="text/javascript" src="js/main.js"></script>
+</body>
+</html>
