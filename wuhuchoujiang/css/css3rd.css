@@ -1,0 +1,42 @@
+@charset "utf-8";
+/* CSS Document */
+/**
+ * 全局样式
+ */
+* {margin:0px; padding:0px; border:0px; -webkit-tap-highlight-color: rgba(255, 255, 255, 0);}
+img {vertical-align:top;}
+body{padding:0px; margin:0px; font-family: "微软雅黑";olor:#fff;}
+li {list-style:none;}
+a{color:#000; text-decoration:none;}
+
+/** 
+ * 首页
+ */
+#demo{width:100%; overflow:hidden;}
+.cj_tit{text-align:center; color:#fff; background:url(../whcjImages/cj_tit.png); background-size:100% 100%;}
+.box{margin:0 auto; overflow:hidden; position:relative;}
+.cjdiv{float:left; position:absolute;}
+.startBtn{position:absolute;}
+.box div.active{background:#fff; border-radius:2px;}
+.cj_btn{text-align:center; color:#fff; margin:0 auto; background:url(../whcjImages/cj_btn.png); background-size:100% 100%;}
+.cj_txt{margin:0 auto; background:#f9dfb8;}
+.cj_wrap{margin:0 auto; overflow:hidden;}
+.cj_wrap li{float:left;}
+.cj_wrap li p{text-align:center; color:#f9dfb8;}
+.footer{width:100%; background:#000;}
+.footer p{width:100%; text-align:center; color:#8e8c86;}
+.tan{width:100%; position:fixed; left:0; top:0; background:rgba(0,0,0,0.7); z-index:999; display:none;}
+.jiluCon,.resultCon{background:#f9dfb8; position:absolute;}
+.cj_h2{text-align:center; font-weight:normal;}
+.jiluCon table{margin:0 auto;}
+.jiluCon p{text-align:center;}
+.jiluCon table tr th{background:#d95838; border:1px solid #f9dfb8; border-top:none; border-left:none;}
+.jiluCon table tr th p{color:#fff;}
+.jiluCon table tr td{background:#f9c0b1; border:1px solid #f9dfb8; border-top:none; border-left:none;}
+.tanClose{margin:0 auto; background:#c74f32; color:#fff; text-align:center;}
+.cjResTxt p{text-align:center;}
+.cjResTxt p span{color:#f00;}
+.cj_load{position:absolute; left:0; top:0; background:url(../whcjImages/cj_load.png); background-size:100% 100%; z-index:999;}
+.cj_load a{display:inline-block; float:left;}
+
+
