@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,user-scalable=no"/>
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="format-detection" content="telephone=no" />
+<title>火咖-为历炼喝彩</title>
+<link href="css/css.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/links.js"></script>
+<script type="text/javascript">
+var _smq = _smq || [];
+_smq.push(['_setAccount', '4850901', new Date()]);
+_smq.push(['pageview']);
+
+(function() {
+var sm = document.createElement('script'); sm.type = 'text/javascript'; sm.async = true;
+sm.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'cdnmaster.com/sitemaster/collect.js';
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(sm, s);
+})();
+</script>
+</head>
+<body>
+<div class="content">
+	<div class="publicWidth gobackbg" style=" background: url(images/fire_01.jpg); background-size:100% 100%;">
+    <img src="images/goback.jpg" width="87" id="goback" style="opacity:0;"> 
+    </div>
+    <div class="publicWidth"><img src="images/fire_02.jpg" width="100%"></div>
+    <div class="publicWidth"><img src="images/fire_03.jpg" width="100%"></div>
+    <div class="publicWidth"><img src="images/fire_04.jpg" width="100%"></div>
+    <div class="publicWidth" style="background:url(images/fire_05.jpg); background-size:100% 100%; text-align:center;">
+    <img src="images/fire_0.png" width="79.37%" onClick="tiaozhuan()" id="imgbtn">
+    </div>
+    <div class="publicWidth"><img src="images/fire_06.jpg" width="100%"></div>
+    <div class="publicWidth"><img src="images/fire_07.jpg" width="100%"></div>
+    <div class="publicWidth"><img src="images/fire_09.jpg" width="100%"></div>
+  <div class="publicWidth firew" style="background:url(images/fire_081.jpg); background-size:100% 100%;">
+    <p class="firep">firehuoka</p>
+    <p class="firem"><img src="images/fire_10.jpg" width="100%"></p>
+    </div>
+
+</div>
+</body>
+<script type="text/javascript">
+
+//控制部分页面元素宽高
+function allJstyle(){
+	var $pageWidth=$(".content").width();
+	
+    $(".firep").css({
+		"width":$pageWidth*(87/480)+"px",
+		"height":$pageWidth*(22/480)+"px",
+		"marginLeft":$pageWidth*(80/480)+"px",
+		"marginTop":$pageWidth*(52/480)+"px"
+		}); 
+    $(".firew").css({
+		"height":$pageWidth*(167/480)+"px",
+		});
+    $(".firem").css({
+		"width":$pageWidth*(96/480)+"px",
+		"height":$pageWidth*(96/480)+"px",
+		"marginLeft":$pageWidth*(96/480)+"px",
+		"marginTop":$pageWidth*(14/480)+"px"
+		}); 
+	$("#goback").css({
+		"width":$pageWidth*(87/480)+"px",
+		"height":$pageWidth*(42/480)+"px",
+		"marginLeft":$pageWidth*(374/480)+"px",
+		"marginTop":$pageWidth*(23/480)+"px",
+		"opacity":1
+		})
+		
+	$(".gobackbg").css({
+		
+		"height":$pageWidth*(100/480)+"px",
+		})				
+																	
+}
+
+
+function tiaozhuan(){
+	_smq.push(['custom','Subpage','sp']);
+	
+	
+	}
+
+$("#imgbtn").bind("touchstart",function(){
+	window.location="http://www.sp-firecoffee.com";
+	})
+$("#goback").bind("touchstart",function(){
+	window.location="indexend.html";
+	})
+
+window.onload=function(){
+	  setTimeout(function(){
+	  	allJstyle();
+		
+		thisURL = document.URL; 
+		var str=new Array();
+		var str=thisURL.split("?"); 
+		if(str.length!=1)
+		{
+			var strs=str[1]; 
+			var strsNum = strs*1;
+			if(strsNum == 2){
+				window.scrollTo(0,300);  
+			}
+		}
+		
+	  },100);
+}
+</script>
+
+
+</html>

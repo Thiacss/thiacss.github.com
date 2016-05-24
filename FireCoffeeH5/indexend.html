@@ -1,0 +1,221 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,user-scalable=no"/>
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<title>火咖-为历炼喝彩</title>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/lufylegend-1.8.6.min.js"></script>
+<script type="text/javascript" src="js/links.js"></script>
+<script type="text/javascript">
+	var _smq = _smq || [];
+	_smq.push(['_setAccount', '4850901', new Date()]);
+	_smq.push(['pageview']);
+	
+	(function() {
+	var sm = document.createElement('script'); sm.type = 'text/javascript'; sm.async = true;
+	sm.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'cdnmaster.com/sitemaster/collect.js';
+	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(sm, s);
+	})();
+</script>
+
+</head>
+
+<body style="padding:0; margin:0;width:auto;height:auto; background:#49180C;">
+	<div id="tanchu" style="width:100%; height:100%; background:rgba(0,0,0,0.5); position:absolute; left:0; top:0; z-index:100; display:none;">
+    	<div class="imgDiv" style="width:100%;text-align:center; position:fixed;">
+        	<div style="width:50%">
+            	<img src="images/rotating.png" width="50%" />
+            </div>
+        	
+        </div>
+    </div>
+    <div id="player" style="width:100%; background:#000;position:absolute; left:0; top:0; display:none; z-index:80; text-align:center;">
+    	<video controls src="images/video.mp4" id="vid" height="272" style="top:200px; position:absolute;">
+          <source src="images/video.mp4"></source>
+        </video>
+    </div>
+	<div id="mylegend" style="margin:0 auto; padding:0; width:100%; z-index:10;"></div>
+    <script type="text/javascript">
+    	init(50,"mylegend",480,755,main);
+        var imgData = [
+					{ name: "back", path: "images/beij2.jpg" },
+					{ name: "btn1", path: "images/btn1.png" },
+					{ name: "btn2", path: "images/btn2.png" },
+					{ name: "btn3", path: "images/btn3.png" },
+				]; 
+		var imglist;
+		var shengqi = false;
+		var loadingLayer,bgLayer,bg,btn1,btn2,btn3;
+		if (LGlobal.canTouch) {
+			LGlobal.stageScale = LStageScaleMode.NO_BORDER;
+		} else {
+			LGlobal.stageScale = LStageScaleMode.SHOW_ALL;
+		};
+		LGlobal.preventDefault = false;
+		LSystem.screen(LStage.FULL_SCREEN);
+		function main(){
+			//加载进度条
+			loadingLayer = new LoadingSample4();
+			addChild(loadingLayer);
+			//加载的所有内容
+			LLoadManage.load(
+				imgData,
+				function (progress){
+					loadingLayer.setProgress(progress);
+				},
+				function (result){
+					imglist = result;
+					removeChild(loadingLayer);
+					loadingLayer = null;
+					gameInit();
+				}
+			);
+		};
+		function gameInit(event){
+			//背景加载
+			bgLayer = new LSprite();
+			addChild(bgLayer);
+			
+			bg = new LBitmap(new LBitmapData(imglist["back"]));
+			bg.x = bg.y = 0;
+			bgLayer.addChild(bg);
+			
+	
+			btn1 = new LButton(new LBitmap(new LBitmapData(imglist["btn1"])));
+			btn1.x = 628;
+			btn1.y = 974;
+			bgLayer.addChild(btn1);
+			weiyi3(btn1,9,394,0);
+			
+			btn2 = new LButton(new LBitmap(new LBitmapData(imglist["btn2"])));
+			btn2.x = 628;
+			btn2.y = 974;
+			bgLayer.addChild(btn2);
+			weiyi3(btn2,156,448,0);
+			
+			btn3 = new LButton(new LBitmap(new LBitmapData(imglist["btn3"])));
+			btn3.x = 628;
+			btn3.y = 974;
+			bgLayer.addChild(btn3);
+			weiyi3(btn3,311,394,0);
+			
+			
+			
+			addEvent();
+		};
+		function addEvent(){
+	
+			btn1.addEventListener(LMouseEvent.MOUSE_UP,onmousedown1);
+			btn2.addEventListener(LMouseEvent.MOUSE_UP,onmousedown2);
+			btn3.addEventListener(LMouseEvent.MOUSE_UP,onmousedown3);
+		};
+		
+		function weiyi3(obj,x,y,delay){
+			LTweenLite.to(obj,0.01,{x:x,y:y,delay:delay,ease:Back.easeOut,onComplete: function(){
+				    
+					
+						
+							LTweenLite.to(btn1,0.5,{scaleX:1.05,scaleY:1.05,loop:true})
+							.to(btn1,0.5,{scaleX:1.0,scaleY:1.0,loop:true});
+							LTweenLite.to(btn2,0.5,{scaleX:1.05,scaleY:1.05,loop:true})
+							.to(btn2,0.5,{scaleX:1.0,scaleY:1.0,loop:true})
+							LTweenLite.to(btn3,0.5,{scaleX:1.05,scaleY:1.05,loop:true})
+							.to(btn3,0.5,{scaleX:1.0,scaleY:1.0,loop:true})
+							
+								 
+						   
+				}
+})
+		};
+		function onmousedown1(event){
+			if(!shengqi){
+			bofangshipin();
+			
+			}
+			_smq.push(['custom','Homepage','video']);
+		};
+		function onmousedown2(event){
+			window.location="active.html";
+			_smq.push(['custom','Homepage','sp']);
+		};
+		function onmousedown3(event){
+			window.location="active.html?2";
+			_smq.push(['custom','Homepage','wechat']);
+		};
+		function remove(obj,time){
+			setTimeout(function(){
+				LTweenLite.to(obj,1,{alpha:0,ease:Strong.easeOut});
+				//bgLayer.removeChild(obj);
+			},time);
+		};
+		
+		//播放视频
+		function bofangshipin(){   
+			var u=navigator.userAgent;
+			shengqi = true;
+			$("#player").show();
+			_smq.push(['custom','Subpage','play']);
+			if(u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1){
+				$("#vid").css("width","100%");
+				document.getElementById('vid').style.display='block';
+				document.getElementById('vid').play();
+			}else{
+				$("#vid").css("width","100%");
+				document.getElementById('vid').style.display='block';
+				setTimeout(function(){document.getElementById('vid').play();},1000);
+			};
+		   
+		};
+	    document.getElementById('vid').addEventListener("ended", end_playing,false);
+		//document.getElementById('vid').addEventListener("pause", end_playing,false);
+		function end_playing(){
+			document.getElementById('vid').style.display='none';
+			$("#vid").css("width","0%");
+			shengqi = false;
+			$("#player").hide();
+		 }
+		
+		var pingKuan;
+		var bili = function(mun){
+			var oScale = mun/480;
+			return oScale.toFixed(8);
+		};
+		function quanBujs(){
+			pingKuan = $("#tanchu").width();
+			var Gao = $(window).height();
+			var Gao1 = $(".imgDiv").height();
+			var topzhi = (Gao - Gao1)/2;
+			$(".imgDiv").css("top",topzhi+"px");
+			$("#player").css("height",Gao+"px");
+			var zhi1 = (Gao - 272)/2;
+			$("#vid").css("top",zhi1+"px");
+		};
+		$("#tanchu").click(function(){
+			$(this).hide();
+		});
+		
+		
+		window.onload=function(){
+			setTimeout(function(){
+				quanBujs();	
+			},100);
+		};
+		//横竖屏
+		function hengshuping(){
+			if(window.orientation==180||window.orientation==0){
+				setTimeout(quanBujs(),1000);
+				$("#tanchu").hide();  
+			};
+			if(window.orientation==90||window.orientation==-90){
+				setTimeout(quanBujs(),1000);
+				$("#tanchu").show();  
+			};
+		};
+		window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", hengshuping, false);
+		window.addEventListener('load', hengshuping, false);
+    </script>
+</body>
+</html>
