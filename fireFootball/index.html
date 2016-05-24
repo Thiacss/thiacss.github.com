@@ -1,0 +1,308 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,user-scalable=no"/>
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<title>火咖-为历炼喝彩</title>
+<link type="text/css" rel="stylesheet" href="css/css.css" />
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/lufylegend-1.8.6.min.js"></script>
+<script type="text/javascript" src="js/links.js"></script>
+<script type="text/javascript" src="js/plugins.min.js"></script>
+</head>
+
+<body style="padding:0; margin:0;width:auto;height:auto; background:#008000;">
+	<div id="btn">
+    	<img src="images/btn.png" width="100%" />
+    </div>
+    <div id="zhongjiangDiv">
+    	<div class="zhongjiang">
+        	<div class="closeBtn"></div>
+        </div>
+        <div class="weizhongj">
+        	<div class="closeBtn1"></div>
+        </div>
+        <div class="chouguo">
+        	<div class="closeBtn2"></div>
+        </div>
+    </div>
+	<div id="tanchu" style="width:100%; height:100%; background:rgba(0,0,0,0.5); position:absolute; left:0; top:0; z-index:100; display:none;">
+    	<div class="imgDiv" style="width:100%;text-align:center; position:fixed;">
+        	<div style="width:50%">
+            	<img src="images/rotating.png" width="50%" />
+            </div>
+        	
+        </div>
+    </div>
+	<div id="mylegend" style="z-index:10; position:absolute;"></div>
+    <script type="text/javascript">
+    	init(50,"mylegend",480,1512,main);
+        var imgData = [
+					{ name: "back", path: "images/bg.jpg"},
+					{ name: "goalkeeper", path: "images/porter.png"},
+					{ name: "goalkeeper1", path: "images/porter.png"},
+					{ name: "football", path: "images/football.png"},
+					{ name: "moveWord", path: "images/moveBtnBg.png"},
+					{ name: "moveBtn", path: "images/moveBtn.png"},
+					{ name: "player", path: "images/person.png"},
+					{ name: "football1", path: "images/smallBall.png"}
+				]; 
+		var imglist;
+		var index = 1;
+		var choujiang = true;
+		var loadingLayer,bgLayer,bg,goalkeeper,goalkeeper1,football,football1,moveWord,moveBtn,player;
+		if (LGlobal.canTouch) {
+			LGlobal.stageScale = LStageScaleMode.NO_BORDER;
+			LGlobal.align = LStageAlign.TOP_MIDDLE;
+			LSystem.screen(LStage.FULL_SCREEN);
+		} else {
+			LGlobal.stageScale = LStageScaleMode.SHOW_ALL;
+			LSystem.screen(LStage.FULL_SCREEN);
+		};
+		LGlobal.preventDefault = false;
+		function main(){
+			//加载进度条
+			loadingLayer = new LoadingSample4();
+			addChild(loadingLayer);
+			//加载的所有内容
+			LLoadManage.load(
+				imgData,
+				function (progress){
+					loadingLayer.setProgress(progress);
+				},
+				function (result){
+					imglist = result;
+					removeChild(loadingLayer);
+					loadingLayer = null;
+					gameInit();
+				}
+			);
+		};
+		function gameInit(event){
+			//背景加载
+			bgLayer = new LSprite();
+			addChild(bgLayer);
+			
+			bg = new LBitmap(new LBitmapData(imglist["back"]));
+			bg.x = bg.y = 0;
+			bgLayer.addChild(bg);
+			//守门员
+			var list = LGlobal.divideCoordinate(360,115,1,3); 
+			var data = new LBitmapData(imglist["goalkeeper"],0,0,120,115); 
+			goalkeeper = new LAnimationTimeline(data,list);
+			goalkeeper.speed = 3;; 
+			goalkeeper.x = 210; 
+			goalkeeper.y = 290;
+			goalkeeper.stop();
+			bgLayer.addChild(goalkeeper);
+			//守门员1
+			var list = LGlobal.divideCoordinate(360,115,1,3); 
+			var data = new LBitmapData(imglist["goalkeeper1"],240,0,120,115); 
+			goalkeeper1 = new LAnimation(bgLayer,data,list);
+			goalkeeper1.x = 270; 
+			goalkeeper1.y = 240;
+			goalkeeper1.alpha = 0;
+			//足球
+			var list = LGlobal.divideCoordinate(94,49,1,2); 
+			var data = new LBitmapData(imglist["football"],0,0,47,49); 
+			football = new LAnimation(bgLayer,data,list); 
+			football.x = 222; 
+			football.y = 390;
+			//足球1
+			football1 = new LBitmap(new LBitmapData(imglist["football1"]));
+			football1.x = 230;
+			football1.y = 280;
+			football1.alpha = 0;
+			bgLayer.addChild(football1);
+			
+			//滑动文字
+			moveWord = new LBitmap(new LBitmapData(imglist["moveWord"]));
+			moveWord.x = 195;
+			moveWord.y = 440;
+			moveWord.alpha = 1;
+			bgLayer.addChild(moveWord);
+			alpha(moveWord,1,0,1);
+			//向下滑动按钮
+			moveBtn = new LSprite();
+			bgLayer.addChild(moveBtn)
+			moveBtnLBitmap = new LBitmap(new LBitmapData(imglist["moveBtn"]));
+			moveBtnLBitmap.x = 195;
+			moveBtnLBitmap.y = 446;
+			moveBtn.addChild(moveBtnLBitmap);
+			scale(moveBtnLBitmap);
+			alpha(moveBtnLBitmap,0.5,0.7,1);
+			//足球运动员
+			player = new LBitmap(new LBitmapData(imglist["player"]));
+			player.x = -270;
+			player.y = 800;
+			bgLayer.addChild(player);
+			
+			addEvent();
+		};
+		function addEvent(){
+			bgLayer.addEventListener(LEvent.ENTER_FRAME,onframe); 
+		};
+		function onframe(){
+			//goalkeeper.onframe();
+			
+		};
+		
+		function alpha(obj,t,alpha1,alpha2){
+			LTweenLite.to(obj,t,{alpha:alpha1,loop:true,ease:Strong.easeOut})
+			.to(obj,t,{alpha:alpha2,loop:true,ease:Strong.easeOut});
+		};
+		function scale(obj){
+			LTweenLite.to(obj,0.5,{y:436,loop:true})
+			.to(obj,0.5,{y:446,loop:true});
+		}
+		
+		function onmousedown(){
+			//中奖
+			if(index == 0){
+				LTweenLite.to(goalkeeper,0.5,{delay:0.3,x:260,y:220,ease:Strong.easeOut,onStart:function(){goalkeeper.play();},onComplete:function(){bgLayer.removeChild(goalkeeper);goalkeeper1.alpha = 1;}});
+				LTweenLite.to(player,0.3,{x:10,y:200,ease:Strong.easeOut})
+				.to(football,0.1,{x:230,y:280,scaleX:0.5,scaleY:0.5,ease:Strong.easeOut,onStart:function(){football.onframe();}})
+				.to(football,0.01,{scaleX:0.5,scaleY:0.5,onStart:function(){football.onframe();},loop:true});
+				LTweenLite.to(football,0.01,{delay:1,onStart:function(){bgLayer.removeChild(football)}});
+				LTweenLite.to(football1,1,{delay:1,alpha:1,x:230,y:350,scaleX:0.7,scaleY:0.7,ease:Elastic.easeOut,onComplete:function(){zj();}});
+			}else if(index == 1){ //未中奖
+				LTweenLite.to(goalkeeper,0.1,{delay:0.3,x:260,y:220,ease:Strong.easeOut,onStart:function(){goalkeeper.play();},onComplete:function(){bgLayer.removeChild(goalkeeper);goalkeeper1.alpha = 1;}});
+				LTweenLite.to(player,0.3,{x:10,y:200,ease:Strong.easeOut})
+				.to(football,0.1,{x:380,y:180,scaleX:0.5,scaleY:0.5,ease:Strong.easeOut,onStart:function(){football.onframe();}})
+				.to(football,0.01,{scaleX:0.5,scaleY:0.5,onStart:function(){football.onframe();},loop:true});
+				LTweenLite.to(football,0.01,{delay:1,onStart:function(){bgLayer.removeChild(football)}});
+				LTweenLite.to(football1,1,{delay:1,alpha:1,x:400,y:350,scaleX:0.7,scaleY:0.7,ease:Elastic.easeOut,onComplete:function(){wzj();}});
+			}else if(index == 2){ //球打到框上
+				LTweenLite.to(goalkeeper,0.1,{delay:0.3,x:260,y:220,ease:Strong.easeOut,onStart:function(){goalkeeper.play();},onComplete:function(){bgLayer.removeChild(goalkeeper);goalkeeper1.alpha = 1;}});
+				LTweenLite.to(player,0.3,{x:10,y:200,ease:Strong.easeOut})
+				.to(football,0.1,{x:370,y:270,scaleX:0.5,scaleY:0.5,ease:Strong.easeOut,onStart:function(){football.onframe();}})
+				.to(football,0.01,{scaleX:0.5,scaleY:0.5,onStart:function(){football.onframe();},loop:true});
+				LTweenLite.to(football,0.01,{delay:1,onStart:function(){bgLayer.removeChild(football)}});
+				LTweenLite.to(football1,0.1,{delay:1,scaleX:0.7,scaleY:0.7,alpha:1,x:580,y:180,ease:Strong.easeOut,onComplete:function(){wzj();}})
+			};
+		};
+		function zj(){
+			$("#zhongjiangDiv").show();
+			$(".zhongjiang").show();
+		};
+		function wzj(){
+			$("#zhongjiangDiv").show();
+			$(".weizhongj").show();
+		};
+		
+		//滑屏判断
+		function shoushi(){
+			$("#btn").swipe({
+				swipeLeft: function (e) {
+					e.preventDefault();
+				},
+				swipeRight: function (e) {
+					e.preventDefault();				
+				},
+				swipeUp: function (e) { 
+					e.preventDefault();
+				},
+				swipeDown: function () { 
+					LTweenLite.to(moveBtnLBitmap,0.5,{y:550});
+					$("#btn").hide();
+					setTimeout(function(){
+						if(choujiang){
+							onmousedown();
+							choujiang = false;
+						}else{
+							$("#zhongjiangDiv").show();
+							$(".chouguo").show();	
+						}
+					},500);
+					setTimeout(function(){
+						$("#btn").show();
+					},3000);
+				}
+			}); 
+		};
+		window.addEventListener("load",shoushi,false);
+
+		//js控制代码
+		var pingKuan;
+		var bili = function(mun){
+			var oScale = mun/480;
+			return oScale.toFixed(8);
+		};
+		function quanBujs(){
+			pingKuan = $("#tanchu").width();
+			var Gao = $(window).height();
+			var Gao1 = $(".imgDiv").height();
+			var topzhi = (Gao - Gao1)/2;
+			$(".imgDiv").css("top",topzhi+"px");
+			$("#btn").css({
+				"width":pingKuan*bili(98)+"px",
+				"height":pingKuan*bili(266)+"px",
+				"left":pingKuan*bili(195)+"px",
+				"top":pingKuan*bili(440)+"px"
+			});
+			$(".zhongjiang").css({
+				"width":pingKuan*bili(408)+"px",
+				"height":pingKuan*bili(277)+"px",
+				"left":pingKuan*bili(36)+"px",
+				"top":$(window).scrollTop()+100+"px"
+			});
+			$(".closeBtn").css({
+				"width":pingKuan*bili(60)+"px",
+				"height":pingKuan*bili(60)+"px",
+			});
+			$(".weizhongj").css({
+				"width":pingKuan*bili(406)+"px",
+				"height":pingKuan*bili(237)+"px",
+				"left":pingKuan*bili(37)+"px",
+				"top":$(window).scrollTop()+100+"px"
+			});
+			$(".chouguo").css({
+				"width":pingKuan*bili(406)+"px",
+				"height":pingKuan*bili(237)+"px",
+				"left":pingKuan*bili(37)+"px",
+				"top":$(window).scrollTop()+100+"px"
+			});
+			$(".closeBtn1,.closeBtn2").css({
+				"width":pingKuan*bili(60)+"px",
+				"height":pingKuan*bili(60)+"px",
+			});
+		};
+		$("#tanchu").click(function(){
+			$(this).hide();
+		});
+		$(".closeBtn").click(function(){
+			$("#zhongjiangDiv").hide();
+			$(".zhongjiang").hide();
+		});
+		$(".closeBtn1").click(function(){
+			$("#zhongjiangDiv").hide();
+			$(".weizhongj").hide();
+		});
+		$(".closeBtn2").click(function(){
+			$("#zhongjiangDiv").hide();
+			$(".chouguo").hide();
+		});
+		
+		window.onload=function(){
+			setTimeout(function(){
+				quanBujs();	
+			},100);
+		};
+		//横竖屏
+		function hengshuping(){
+			if(window.orientation==180||window.orientation==0){
+				setTimeout(quanBujs(),1000);
+				$("#tanchu").hide();  
+			};
+			if(window.orientation==90||window.orientation==-90){
+				setTimeout(quanBujs(),1000);
+				$("#tanchu").show();  
+			};
+		};
+		window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", hengshuping, false);
+		window.addEventListener('load', hengshuping, false);
+    </script>
+</body>
+</html>
